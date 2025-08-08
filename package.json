@@ -16,7 +16,9 @@
     "preview": "yes | pnpm install && vite preview",
     "clean": "rm -rf dist node_modules/.vite",
     "deploy": "npx wrangler pages deploy dist --project-name fertility-benefits-toolkit",
-    "deploy:preview": "npx wrangler pages deploy dist --project-name fertility-benefits-toolkit --compatibility-date 2024-01-01"
+    "deploy:preview": "npx wrangler pages deploy dist --project-name fertility-benefits-toolkit --compatibility-date 2024-01-01",
+    "test:agents": "vitest run src/agents/__tests__",
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

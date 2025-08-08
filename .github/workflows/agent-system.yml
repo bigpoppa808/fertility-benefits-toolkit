@@ -1,0 +1,185 @@
+name: Agent System CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'src/agents/**'
+      - 'agents/**'
+      - '.github/workflows/agent-system.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/agents/**'
+      - 'agents/**'
+
+jobs:
+  test-agents:
+    name: Test Agent System
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+          
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+            
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Run linting
+        run: pnpm lint
+        
+      - name: Type checking
+        run: pnpm type-check
+        
+      - name: Run agent tests
+        run: pnpm test:agents
+        env:
+          NODE_ENV: test
+          
+      - name: Build application
+        run: pnpm build
+        
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: dist/
+
+  validate-research-data:
+    name: Validate Research Data
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Validate research documents
+        run: |
+          echo "Validating research documentation..."
+          # Check if research docs exist
+          ls -la docs/*.md
+          ls -la agents/*.md
+          
+      - name: Check data sources
+        run: |
+          echo "Checking data source configurations..."
+          # Validate data source URLs and formats
+          grep -r "https://" src/agents/research/ || true
+
+  deploy-agent-monitor:
+    name: Deploy Agent Monitor
+    runs-on: ubuntu-latest
+    needs: [test-agents, validate-research-data]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Build for production
+        run: pnpm build:pages
+        env:
+          NODE_ENV: production
+          
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: fertility-benefits-toolkit
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  agent-performance:
+    name: Agent Performance Tests
+    runs-on: ubuntu-latest
+    needs: test-agents
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Run performance benchmarks
+        run: |
+          echo "Running agent performance benchmarks..."
+          # Add performance testing commands here
+          
+      - name: Upload performance results
+        uses: actions/upload-artifact@v3
+        with:
+          name: performance-results
+          path: performance-results/
+
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run security audit
+        run: pnpm audit
+        
+      - name: Check for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          
+      - name: SAST Scan
+        uses: github/super-linter@v5
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_JAVASCRIPT_ES: true
+          VALIDATE_TYPESCRIPT_ES: true

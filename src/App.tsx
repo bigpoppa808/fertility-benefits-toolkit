@@ -7,7 +7,7 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { ErrorBoundary } from '@/components/layout/ErrorBoundary'
 import { LoadingSpinner } from '@/components/layout/LoadingSpinner'
-import { Calculator, BarChart3, FileText, Globe, ArrowRight, TrendingUp } from 'lucide-react'
+import { Calculator, BarChart3, FileText, Globe, ArrowRight, TrendingUp, Cpu } from 'lucide-react'
 import { Toaster } from 'sonner'
 
 // Lazy load main components
@@ -15,6 +15,7 @@ const ROICalculator = lazy(() => import('@/components/roi/ROICalculator').then(m
 const AIDashboard = lazy(() => import('@/components/dashboard/AIDashboard').then(m => ({ default: m.AIDashboard })))
 const PolicyTracker = lazy(() => import('@/components/policy/PolicyTracker').then(m => ({ default: m.PolicyTracker })))
 const GlobalComparator = lazy(() => import('@/components/global/GlobalComparator').then(m => ({ default: m.GlobalComparator })))
+const AgentMonitor = lazy(() => import('@/components/agents/AgentMonitor').then(m => ({ default: m.AgentMonitor })))
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -109,6 +110,12 @@ function App() {
         return (
           <Suspense fallback={<LoadingFallback />}>
             <GlobalComparator />
+          </Suspense>
+        )
+      case 'agent-monitor':
+        return (
+          <Suspense fallback={<LoadingFallback />}>
+            <AgentMonitor />
           </Suspense>
         )
       default:

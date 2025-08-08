@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { Calculator, BarChart3, FileText, Globe, Building2 } from 'lucide-react'
+import { Calculator, BarChart3, FileText, Globe, Building2, Cpu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 interface HeaderProps {
@@ -13,6 +13,7 @@ export const Header = memo(function Header({ activeTab, onTabChange }: HeaderPro
     { id: 'ai-dashboard', label: 'AI Dashboard', icon: BarChart3 },
     { id: 'policy-tracker', label: 'Policy Tracker', icon: FileText },
     { id: 'global-comparator', label: 'Global Comparator', icon: Globe },
+    { id: 'agent-monitor', label: 'Agent System', icon: Cpu },
   ]
 
   return (
