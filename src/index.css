@@ -1,0 +1,201 @@
+/* Import modern web fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Research Project Color Palette */
+    --primary-gray: 29 15% 48%; /* #887E6F */
+    --primary-red: 347 100% 30%; /* #98002E */
+    --primary-silver: 240 2% 66%; /* #A7A9AC */
+    --legacy-silver: 0 0% 46%; /* #777575 */
+    
+    /* Liquid Glass Theme Variables */
+    --background: 0 0% 98%;
+    --foreground: 29 15% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 29 15% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 29 15% 15%;
+    --primary: var(--primary-red);
+    --primary-foreground: 0 0% 98%;
+    --secondary: var(--primary-gray);
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 2% 96%;
+    --muted-foreground: var(--legacy-silver);
+    --accent: var(--primary-silver);
+    --accent-foreground: 29 15% 15%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 240 2% 90%;
+    --input: 240 2% 95%;
+    --ring: var(--primary-red);
+    --chart-1: var(--primary-red);
+    --chart-2: var(--primary-gray);
+    --chart-3: var(--primary-silver);
+    --chart-4: 200 50% 50%;
+    --chart-5: 25 50% 50%;
+    --radius: 1rem;
+    
+    /* Glass Effect Variables */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  }
+
+  .dark {
+    --background: 29 15% 8%;
+    --foreground: 0 0% 95%;
+    --card: 29 15% 10%;
+    --card-foreground: 0 0% 95%;
+    --popover: 29 15% 10%;
+    --popover-foreground: 0 0% 95%;
+    --primary: var(--primary-red);
+    --primary-foreground: 0 0% 98%;
+    --secondary: var(--primary-gray);
+    --secondary-foreground: 0 0% 98%;
+    --muted: 29 15% 15%;
+    --muted-foreground: var(--primary-silver);
+    --accent: var(--legacy-silver);
+    --accent-foreground: 0 0% 95%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 29 15% 20%;
+    --input: 29 15% 15%;
+    --ring: var(--primary-red);
+    --chart-1: var(--primary-red);
+    --chart-2: var(--primary-gray);
+    --chart-3: var(--primary-silver);
+    --chart-4: 200 50% 70%;
+    --chart-5: 25 50% 70%;
+    
+    /* Dark Glass Effect Variables */
+    --glass-bg: rgba(0, 0, 0, 0.2);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+    min-height: 100vh;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: calc(var(--radius) * 1.5);
+  }
+  
+  .glass-button {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 16px rgba(31, 38, 135, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(31, 38, 135, 0.3);
+  }
+  
+  .hero-gradient {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--background)) 0%,
+      hsl(var(--muted)) 50%,
+      hsl(var(--primary-gray) / 0.1) 100%
+    );
+  }
+  
+  .text-gradient {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary-red)) 0%,
+      hsl(var(--primary-gray)) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-2;
+  }
+  
+  .metric-card {
+    @apply glass-card p-6 card-hover;
+  }
+}
+
+/* Custom scrollbar with glass effect */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary-gray) / 0.6);
+  border-radius: 4px;
+  backdrop-filter: blur(10px);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary-red) / 0.8);
+}
+
+/* Chart animations */
+.recharts-pie-sector {
+  transition: all 0.3s ease;
+}
+
+.recharts-bar {
+  transition: all 0.3s ease;
+}
+
+/* Hero section styles */
+.hero-section {
+  background: url('/hero-meeting.png') center/cover no-repeat;
+  position: relative;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--background) / 0.9) 0%,
+    hsl(var(--primary-gray) / 0.8) 50%,
+    hsl(var(--primary-red) / 0.9) 100%
+  );
+  backdrop-filter: blur(2px);
+}
