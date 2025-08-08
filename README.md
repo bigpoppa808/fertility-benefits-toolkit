@@ -1,50 +1,41 @@
-# React + TypeScript + Vite
+# Fertility Benefits Toolkit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+The Fertility Benefits Toolkit is a comprehensive resource for organizations looking to implement and optimize fertility benefits programs. With a focus on supporting veterans and military families, this toolkit provides tools, research, and guidance to help employers create inclusive family-building benefits that drive retention, productivity, and ROI.
 
-Currently, two official plugins are available:
+Deployed on Cloudflare Pages: [Live Site](https://fdfff15d.milvet-fertility.pages.dev)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Research Basis
+This toolkit is grounded in extensive 2025 research on fertility benefits:
 
-## Expanding the ESLint configuration
+- **Market Growth**: U.S. fertility market projected to reach USD 19.72 billion by 2034.
+- **Employer Adoption**: 42% of U.S. employers offer fertility benefits, up from 30% in 2020.
+- **Costs**: IVF cycles range from $12,000-$35,000; surrogacy $100,000-$200,000.
+- **ROI**: Companies see 2-4x return through improved retention (65% of employees would switch jobs for benefits).
+- **Veteran Focus**: Highlights TRICARE gaps and national security implications for military retention.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Detailed reports available in `/docs/` folder, including `fertility_benefits_research_report.md` and `research_plan_fertility_benefits.md`.
 
-- Configure the top-level `parserOptions` property like this:
+## Functionalities
+- **ROI Models**: Calculate return on investment for fertility benefits programs.
+- **Policy Tracker**: Monitor legislative changes and predict policy impacts.
+- **Benchmark Comparator**: Compare benefits across global standards.
+- **AI Chatbot**: Provide personalized guidance on fertility benefits.
+- **Case Studies**: Industry-specific examples in `/case_studies/`.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## How to Use
+1. **Local Development**:
+   - Install dependencies: `pnpm install`
+   - Run dev server: `pnpm run dev`
+   - Access at `http://localhost:5173`
+2. **Build and Deploy**:
+   - Build: `pnpm run build`
+   - Deploy to Cloudflare: `npx wrangler pages deploy dist`
+3. Explore tools via the web interface or integrate into your HR systems.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Marketing Messages
+- Empower your workforce with inclusive fertility benefits.
+- Address veteran needs and boost national security through better retention.
+- Join leading employers in offering family-building support that pays off.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+For contributions or questions, open an issue or PR.
