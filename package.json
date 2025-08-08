@@ -8,12 +8,15 @@
   "scripts": {
     "dev": "yes | pnpm install && vite",
     "build": "yes | pnpm install && rm -rf node_modules/.vite-temp && tsc -b && vite build",
+    "build:pages": "tsc -b && vite build",
     "build:analyze": "pnpm run build && npx vite-bundle-analyzer dist",
     "lint": "yes | pnpm install && eslint .",
     "lint:fix": "yes | pnpm install && eslint . --fix",
     "type-check": "tsc --noEmit",
     "preview": "yes | pnpm install && vite preview",
-    "clean": "rm -rf dist node_modules/.vite"
+    "clean": "rm -rf dist node_modules/.vite",
+    "deploy": "npx wrangler pages deploy dist --project-name fertility-benefits-toolkit",
+    "deploy:preview": "npx wrangler pages deploy dist --project-name fertility-benefits-toolkit --compatibility-date 2024-01-01"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
